@@ -1,6 +1,6 @@
 <template>
   <li>
-    <router-link to="/" class="navigation__link">
+    <router-link :to="where" class="navigation__link">
       {{ text }}
     </router-link>
   </li>
@@ -9,7 +9,7 @@
 <script>
   export default {
     name: 'NavigationItem',
-    props: ['text', 'activeLink'],
+    props: ['text', 'where'],
   };
 </script>
 
@@ -24,7 +24,7 @@
     cursor: pointer;
   }
 
-  .active .navigation__link,
+  .router-link-active,
   .navigation__link:active,
   .navigation__link:hover {
     color: #40a4c8
@@ -39,7 +39,7 @@
       border-bottom: 4px solid transparent
     }
 
-    .active .navigation__link,
+    .router-link-active,
     .navigation__link:active,
     .navigation__link:hover {
       background-color: #8f5c2c;

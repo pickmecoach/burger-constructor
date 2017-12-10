@@ -7,7 +7,7 @@
 
 <script>
   import Logo from './Logo';
-  import Navigation from './Navigation/Navigation';
+  import Navigation from './UI/Navigation';
 
   export default {
     name: 'Header',

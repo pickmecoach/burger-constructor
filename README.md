@@ -1,4 +1,4 @@
-# test-vue
+# burger-constructor
 
 > A Vue.js project
 

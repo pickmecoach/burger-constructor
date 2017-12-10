@@ -1,0 +1,28 @@
+{
+  "ingredients": [
+    {
+      "id": 1,
+      "name": "Cheese",
+      "quantity": 0,
+      "cost": 0.5
+    },
+    {
+      "id": 2,
+      "name": "Salad",
+      "quantity": 0,
+      "cost": 0.4
+    },
+    {
+      "id": 3,
+      "name": "Bacon",
+      "quantity": 0,
+      "cost": 0.7
+    },
+    {
+      "id": 4,
+      "name": "Cutlet",
+      "quantity": 0,
+      "cost": 1.5
+    }
+  ]
+}

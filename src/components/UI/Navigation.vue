@@ -6,15 +6,15 @@
           'navigation__item': true,
           'active': activeLink === 'home'
         }"
+        :where="'home'"
         :text="'Burger Builder'"
-        @click="setActiveLink('home')"
       ></NavigationItem>
       <NavigationItem
         :class="{
           'navigation__item': true
         }"
+        :where="'checkout'"
         :text="'Checkout'"
-        @click="setActiveLink('checkout')"
       ></NavigationItem>
     </ul>
   </nav>
@@ -29,11 +29,6 @@
       return {
         activeLink: 'home',
       };
-    },
-    methods: {
-      setActiveLink(link) {
-        this.activeLink = link;
-      },
     },
     components: {
       NavigationItem,
@@ -81,20 +76,6 @@
       width: auto;
       -ms-flex-align: center;
       align-items: center
-    }
-
-    .navigation__item a {
-      color: #fff;
-      height: 100%;
-      padding: 16px 10px;
-      border-bottom: 4px solid transparent
-    }
-
-    .navigation__item a:active,
-    .navigation__item a:hover {
-      background-color: #8f5c2c;
-      border-bottom: 4px solid #40a4c8;
-      color: #fff
     }
   }
 </style>

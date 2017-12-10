@@ -4,19 +4,46 @@
       <div class="breadtop__seeds_1"></div>
       <div class="breadtop__seeds_2"></div>
     </div>
+    <Salad class="burger__ingredient"></Salad>
+    <Bacon class="burger__ingredient"></Bacon>
+    <Cheese class="burger__ingredient"></Cheese>
+    <Cutlet class="burger__ingredient"></Cutlet>
     <div class="breadbottom">
-
     </div>
   </div>
 </template>
 
 <script>
-  import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
+  import axios from 'axios';
+  import Cheese from './Cheese';
+  import Salad from './Salad';
+  import Bacon from './Bacon';
+  import Cutlet from './Cutlet';
+
+  const url = 'http://localhost:3000/ingredients';
 
   export default {
     name: 'Burger',
+    data() {
+      return {
+        ingredients: null,
+        error: null,
+      };
+    },
+    created() {
+      axios.get(url)
+        .then((response) => {
+          this.ingredients = response.data;
+        })
+        .catch((e) => {
+          this.error.push(e);
+        });
+    },
     components: {
-      BurgerIngredient,
+      Cheese,
+      Salad,
+      Bacon,
+      Cutlet,
     },
   };
 
@@ -31,6 +58,10 @@
     text-align: center;
     font-weight: 700;
     font-size: 1.2rem
+  }
+
+  .burger__ingredient {
+    margin: 2% auto;
   }
 
   @media (min-width: 500px) and (min-height: 400px) {
