@@ -8,6 +8,13 @@
 # install dependencies
 npm install
 
+# install JSON Server
+npm install -g json-server
+
+# run JSON Server
+cd 'db.json directory'
+json-server --watch db.json
+
 # serve with hot reload at localhost:8080
 npm run dev
 
