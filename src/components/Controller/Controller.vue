@@ -10,12 +10,13 @@
         class="btn__less"
         :disabled= true
         :product="ingredient.name"
+        @click.native="SubtractIngredient(ingredient.id)"
       ></Btn>
       <Btn
         :text="'More'"
         class="btn__more"
         :product="ingredient.name"
-        @click="addIngredient(ingredient.name)"
+        @click.native="AddIngredient(ingredient.id, counter)"
       ></Btn>
     </div>
   </div>
@@ -26,7 +27,7 @@
   import Btn from '../UI/Btn';
   import ControllerLabel from './ControllerLabel/ControllerLabel';
 
-  const url = 'http://localhost:3000/ingredients';
+  const url = 'http://localhost:3000/ingredients/';
 
   export default {
     name: 'Controller',
@@ -41,6 +42,7 @@
         currentPrice: this.price.toFixed(2),
         ingredients: null,
         error: null,
+        counter: 0,
       };
     },
     created() {
@@ -53,9 +55,13 @@
         });
     },
     methods: {
-      addIngredient(ingredient) {
-        axios.post(url, {
-          body: ingredient,
+      AddIngredient(ingredient, counter) {
+        let urlCurrent = url;
+        let counterCurrent = counter;
+        counterCurrent += 1;
+        urlCurrent += ingredient;
+        axios.patch(urlCurrent, {
+          quantity: counterCurrent,
         })
         .then(() => {})
         .catch((e) => {
@@ -89,6 +95,7 @@
     align-items: center;
     margin: 5px 0;
   }
+
 
  .controller__label {
    padding: 10px;

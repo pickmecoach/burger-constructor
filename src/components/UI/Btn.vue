@@ -24,6 +24,15 @@
     color: #fff;
   }
 
+  .btn:hover,
+  .btn:active {
+    opacity: 0.7;
+  }
+
+  .btn:disabled:hover {
+    opacity: 1;
+  }
+
   .btn:disabled {
     background-color: #AC9980;
     border: 1px solid #7E7365;
