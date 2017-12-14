@@ -11,7 +11,7 @@
 <style scoped>
   .bacon {
     width: 80%;
-    height: 2%;
+    height: 10px;
     background-color: hotpink;
   }
 </style>

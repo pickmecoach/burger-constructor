@@ -4,10 +4,18 @@
       <div class="breadtop__seeds_1"></div>
       <div class="breadtop__seeds_2"></div>
     </div>
-    <Salad class="burger__ingredient"></Salad>
-    <Bacon class="burger__ingredient"></Bacon>
-    <Cheese class="burger__ingredient"></Cheese>
-    <Cutlet class="burger__ingredient"></Cutlet>
+    <div class="burger__ingredients">
+      <Salad class="burger__ingredient"></Salad>
+    </div>
+    <div class="burger__ingredients">
+      <Bacon class="burger__ingredient"></Bacon>
+    </div>
+    <div class="burger__ingredients">
+      <Cheese class="burger__ingredient"></Cheese>
+    </div>
+    <div class="burger__ingredients">
+      <Cutlet class="burger__ingredient"></Cutlet>
+    </div>
     <div class="breadbottom">
     </div>
   </div>
@@ -58,6 +66,10 @@
     text-align: center;
     font-weight: 700;
     font-size: 1.2rem
+  }
+
+  .burger__ingredients {
+    width: 100%;
   }
 
   .burger__ingredient {

@@ -11,7 +11,7 @@
 <style scoped>
   .cheese {
     width: 90%;
-    height: 2%;
+    height: 10px;
     background-color: yellow;
   }
 </style>

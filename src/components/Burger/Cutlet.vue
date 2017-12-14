@@ -11,7 +11,7 @@
 <style scoped>
   .cutlet {
     width: 80%;
-    height: 10%;
+    height: 50px;
 
     -webkit-border-radius: 10%;
     -moz-border-radius: 10%;

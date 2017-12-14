@@ -11,7 +11,7 @@
 <style scoped>
   .salad {
     width: 80%;
-    height: 2%;
+    height: 10px;
     background-color: greenyellow;
   }
 </style>
