@@ -1,58 +1,117 @@
 <template>
-  <div class="burger">
-    <div class="breadtop">
-      <div class="breadtop__seeds_1"></div>
-      <div class="breadtop__seeds_2"></div>
+  <!-- Сделаем обертку, чтоб компонент возвращал один элемент -->
+  <div class="burger__wrapper">
+    <!-- Сам бургер -->
+    <div class="burger">
+      <div class="breadtop">
+        <div class="breadtop__seeds_1"></div>
+        <div class="breadtop__seeds_2"></div>
+      </div>
+
+      <!-- Не уверен, что для того, чтобы вывести див с определенным классом
+      нам нужен отдельный компонент, поэтому как вариант:-->
+
+      <!-- Салат -->
+      <div class="burger__ingredients">
+        <div class="burger__ingredient salad" v-for="n in getQuantityByName('Salad')"></div>
+      </div>
+
+      <!-- Сыр -->
+      <div class="burger__ingredients">
+        <div class="burger__ingredient cheese" v-for="n in getQuantityByName('Cheese')"></div>
+      </div>
+
+      <!-- Бэйкон -->
+      <div class="burger__ingredients">
+        <div class="burger__ingredient cheese" v-for="n in getQuantityByName('Bacon')"></div>
+      </div>
+
+      <!-- Котлетс -->
+      <div class="burger__ingredients">
+        <div class="burger__ingredient cutlet" v-for="n in getQuantityByName('Cutlet')"></div>
+      </div>
+
+      <div class="breadbottom">
+      </div>
     </div>
-    <div class="burger__ingredients">
-      <Salad class="burger__ingredient"></Salad>
-    </div>
-    <div class="burger__ingredients">
-      <Bacon class="burger__ingredient"></Bacon>
-    </div>
-    <div class="burger__ingredients">
-      <Cheese class="burger__ingredient"></Cheese>
-    </div>
-    <div class="burger__ingredients">
-      <Cutlet class="burger__ingredient"></Cutlet>
-    </div>
-    <div class="breadbottom">
-    </div>
+
+    <!-- "Контрольная панель",
+    передаем ей через пропс ингридиенты и вещаем обработчик на кастомное
+    событие update, которое и триггерится нами через $emit внутри Controller.
+    Назначенный обработчик updateIngredients получит в качестве аргумента то, что
+    мы передали в $emit, после названия 'update'-->
+    <Controller :panel-options="ingredients" @update="updateIngredients"></Controller>
   </div>
 </template>
 
 <script>
   import axios from 'axios';
-  import Cheese from './Cheese';
-  import Salad from './Salad';
-  import Bacon from './Bacon';
-  import Cutlet from './Cutlet';
-
+  import Controller from '../Controller/Controller.vue'
   const url = 'http://localhost:3000/ingredients';
 
   export default {
     name: 'Burger',
     data() {
       return {
-        ingredients: null,
+        ingredients: [],
         error: null,
       };
     },
     created() {
+      //- Получаем ингридиенты и заносим в стейт ингридиентов
       axios.get(url)
-        .then((response) => {
-          this.ingredients = response.data;
-        })
-        .catch((e) => {
-          this.error.push(e);
-        });
+        .then(
+          response => { this.ingredients = response.data },
+          error => { this.error = error }
+        );
     },
     components: {
-      Cheese,
-      Salad,
-      Bacon,
-      Cutlet,
+      Controller: Controller
     },
+    computed: {
+
+      //- получаем из массива ингридиентов объект с ключами по id,
+      //- удобного поиска
+      ingredientsObj () {
+        return this.ingredients.reduce((acc, next) => {
+          return {...acc, [next.id]: next}
+        }, {});
+      }
+    },
+    methods: {
+      //- Узнаем количество по названию, раз нам важен порядок
+      getQuantityByName (name) {
+        return (this.ingredients.find(item => item.name === name) || {}).quantity
+      },
+
+      //- обрабатываем инфу с Controller на update
+      updateIngredients ({type, id}) {
+
+        //- текущее количество ингридиентов
+        let currentValue = this.ingredientsObj[id].quantity
+
+        axios.patch(`${url}/${id}`, {
+
+          //- если тип INC, передаем +1, иначе -1 от текущего
+          quantity: type === 'inc' ? currentValue + 1 : currentValue - 1,
+        })
+        .then(
+          res => {
+            //- обновляем наш стейт
+            this.ingredients = this.ingredients.map(item => {
+
+              //- находим по переданному id, и заменяем на ответ
+              if (item.id === id) {
+                item = res.data
+              }
+              return item
+            })
+          },
+          error => null
+        )
+
+      }
+    }
   };
 
 </script>
@@ -74,6 +133,31 @@
 
   .burger__ingredient {
     margin: 2% auto;
+  }
+
+  .burger__ingredient.cheese {
+    width: 90%;
+    height: 10px;
+    background-color: yellow;
+  }
+
+  .burger__ingredient.bacon {
+    width: 80%;
+    height: 10px;
+    background-color: hotpink;
+  }
+
+  .burger__ingredient.cutlet {
+    width: 80%;
+    height: 50px;
+    border-radius: 10px;
+    background-color: brown;
+  }
+
+  .burger__ingredient.salad {
+    width: 80%;
+    height: 10px;
+    background-color: greenyellow;
   }
 
   @media (min-width: 500px) and (min-height: 400px) {

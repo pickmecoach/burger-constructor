@@ -1,22 +1,25 @@
 <template>
   <div class="controller">
-    <div class="current-price">Current price: {{currentPrice}}</div>
-    <div v-for="ingredient in ingredients" class="controller__row">
-      <ControllerLabel
-        :text="ingredient.name"
-      ></ControllerLabel>
+    <div class="current-price">Current price: {{currentPrice | toCurrency}}</div>
+    <div v-for="ingredient in panelOptions" class="controller__row">
+
+      <!-- Опять же почему бы просто не вывести див ? -->
+      <div class="controller__label">
+        {{ ingredient.name }}
+      </div>
+
       <Btn
         :text="'Less'"
         class="btn__less"
-        :disabled= true
+        :disabled="ingredient.quantity === 0"
         :product="ingredient.name"
-        @click.native="SubtractIngredient(ingredient.id)"
+        @click.native="changeAmount('dec', ingredient.id)"
       ></Btn>
       <Btn
         :text="'More'"
         class="btn__more"
         :product="ingredient.name"
-        @click.native="AddIngredient(ingredient.id, counter)"
+        @click.native="changeAmount('inc', ingredient.id)"
       ></Btn>
     </div>
   </div>
@@ -25,53 +28,46 @@
 <script>
   import axios from 'axios';
   import Btn from '../UI/Btn';
-  import ControllerLabel from './ControllerLabel/ControllerLabel';
-
-  const url = 'http://localhost:3000/ingredients/';
 
   export default {
     name: 'Controller',
     props: {
-      price: {
-        type: Number,
-        default: 4.00,
-      },
+      panelOptions: {
+        type: Array,
+        default: () => []
+      }
     },
-    data() {
-      return {
-        currentPrice: this.price.toFixed(2),
-        ingredients: null,
-        error: null,
-        counter: 0,
-      };
+    computed: {
+
+      //- Высчитываем текущую цену
+      currentPrice () {
+        return this.panelOptions.reduce((acc, next) => {
+          return acc += (next.cost * next.quantity)
+        }, 0)
+      }
     },
-    created() {
-      axios.get(url)
-        .then((response) => {
-          this.ingredients = response.data;
-        })
-        .catch((e) => {
-          this.errors.push(e);
-        });
-    },
+
     methods: {
-      AddIngredient(ingredient, counter) {
-        let urlCurrent = url;
-        let counterCurrent = counter;
-        counterCurrent += 1;
-        urlCurrent += ingredient;
-        axios.patch(urlCurrent, {
-          quantity: counterCurrent,
-        })
-        .then(() => {})
-        .catch((e) => {
-          this.errors.push(e);
-        });
+
+      //- Изменяем количество
+      changeAmount (type, id) {
+
+        //- Передаем "Наверх" данные об ингридиенте и тип изменения
+        this.$emit('update', {type, id})
+        //- объект с type и id будет передан в качестве аргумента
+        //- в обработчик (см. Бургер)
       },
     },
+
+    //- Фильтры для получения значения со знаками после запятой
+    filters: {
+      toCurrency (value) {
+        return value.toFixed(2)
+      }
+    },
+
     components: {
       Btn,
-      ControllerLabel,
     },
   };
 </script>

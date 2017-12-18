@@ -1,5 +1,5 @@
 <template>
-  <button class="btn" :data-ingredient="product">
+  <button class="btn">
     {{ text }}
   </button>
 </template>
@@ -7,7 +7,7 @@
 <script>
   export default {
     name: 'Btn',
-    props: ['text', 'product'],
+    props: ['text'],
   };
 </script>
 

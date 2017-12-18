@@ -3,13 +3,13 @@
     {
       "id": 1,
       "name": "Cheese",
-      "quantity": 0,
+      "quantity": 2,
       "cost": 0.5
     },
     {
       "id": 2,
       "name": "Salad",
-      "quantity": 0,
+      "quantity": 2,
       "cost": 0.4
     },
     {

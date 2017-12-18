@@ -1,7 +1,6 @@
 <template>
   <main class="main">
     <Burger></Burger>
-    <Controller></Controller>
   </main>
 </template>
 
@@ -13,7 +12,6 @@
     name: 'Main',
     components: {
       Burger,
-      Controller,
     },
   };
 </script>
